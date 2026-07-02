@@ -1,0 +1,68 @@
+name: Update knockout stats
+
+# Ticks every 15 minutes so it can catch each match's kickoff (the "before")
+# and full-time whistle (the "after") promptly. Most ticks are a no-op: the
+# in-window check below skips everything outside the actual knockout-stage
+# dates, and scripts/update_readme.py itself only does the expensive
+# fetch/refit/simulate/commit work when a tracked match is starting within
+# the next 20 minutes or has just finished (see fifa_sim/scheduler.py) --
+# every other tick exits in a second or two.
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-knockout-stats
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check tournament window
+        id: window
+        run: |
+          today=$(date -u +%F)
+          if [[ "$today" < "2026-06-27" || "$today" > "2026-07-20" ]]; then
+            echo "in_window=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "in_window=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.window.outputs.in_window == 'true' || github.event_name == 'workflow_dispatch'
+
+      - uses: actions/setup-python@v5
+        if: steps.window.outputs.in_window == 'true' || github.event_name == 'workflow_dispatch'
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        if: steps.window.outputs.in_window == 'true' || github.event_name == 'workflow_dispatch'
+        run: pip install -r requirements.txt
+
+      - name: Refresh stats and README
+        if: steps.window.outputs.in_window == 'true' || github.event_name == 'workflow_dispatch'
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            python scripts/update_readme.py --force
+          else
+            python scripts/update_readme.py
+          fi
+
+      - name: Commit and push if changed
+        if: steps.window.outputs.in_window == 'true' || github.event_name == 'workflow_dispatch'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md data/history/snapshots.jsonl data/plots data/state
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update knockout stats [automated]"
+            git push
+          fi

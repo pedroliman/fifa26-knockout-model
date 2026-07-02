@@ -1,0 +1,132 @@
+"""Renders the simulation as a Markdown block for the README.
+
+Kept separate from `cli.py` (plain text) but built on the same shared
+`team_status` helpers, so the numbers and wording never drift between the
+two surfaces.
+"""
+from __future__ import annotations
+
+from datetime import datetime, timezone
+
+from .pipeline import Snapshot
+from .simulator import PROGRESS_ROUNDS, SimulationResult
+from .team_status import (
+    ROUND_LABELS,
+    current_match_for_team,
+    describe_status,
+    exit_distribution,
+    find_team,
+)
+
+RESULTS_START = "<!-- RESULTS:START -->"
+RESULTS_END = "<!-- RESULTS:END -->"
+
+TRACKED_TEAMS = ["Brazil", "France", "United States", "Argentina", "Spain"]
+
+
+def slug_for_team(team_name: str) -> str:
+    return team_name.lower().replace(" ", "_")
+
+
+def _leaderboard_table(result: SimulationResult) -> str:
+    rows = []
+    for team_id in result.all_r32_teams():
+        rows.append(
+            (
+                result.team_names.get(team_id, team_id),
+                result.prob_reach(team_id, "round-of-16"),
+                result.prob_reach(team_id, "quarterfinals"),
+                result.prob_reach(team_id, "semifinals"),
+                result.prob_reach(team_id, "final"),
+                result.prob_champion(team_id),
+            )
+        )
+    rows.sort(key=lambda r: -r[5])
+
+    lines = [
+        "| Team | R16 | QF | SF | Final | Champion |",
+        "|---|---:|---:|---:|---:|---:|",
+    ]
+    for name, r16, qf, sf, f, champ in rows:
+        lines.append(
+            f"| {name} | {r16*100:.1f}% | {qf*100:.1f}% | {sf*100:.1f}% | "
+            f"{f*100:.1f}% | **{champ*100:.1f}%** |"
+        )
+    return "\n".join(lines)
+
+
+def _team_section(snapshot: Snapshot, result: SimulationResult, team_name: str) -> str:
+    team_id = find_team(team_name, snapshot.ratings.team_names)
+    if team_id is None or team_id not in snapshot.bracket.round_of_32_teams():
+        return f"### {team_name}\n\nNot in the Round of 32 (eliminated in the group stage).\n"
+
+    m, side, other = current_match_for_team(snapshot.bracket, team_id)
+    status = describe_status(m, side, other)
+
+    reach = {r: result.prob_reach(team_id, r) for r in PROGRESS_ROUNDS}
+    champion = result.prob_champion(team_id)
+    exits = exit_distribution(result, team_id)
+    most_likely = max(exits, key=exits.get)
+
+    lines = [
+        f"### {team_name}",
+        "",
+        status,
+        "",
+        "| Stage | P(reach) |",
+        "|---|---:|",
+    ]
+    for r in PROGRESS_ROUNDS[1:]:
+        lines.append(f"| {ROUND_LABELS[r]} | {reach[r]*100:.1f}% |")
+    lines.append(f"| **Win the Cup** | **{champion*100:.1f}%** |")
+    lines.append("")
+    lines.append(f"Most likely single outcome: **{most_likely}** ({exits[most_likely]*100:.1f}%).")
+    lines.append("")
+    lines.append(f"![{team_name} probability over time](data/plots/{slug_for_team(team_name)}.png)")
+    return "\n".join(lines)
+
+
+def render_results_markdown(
+    snapshot: Snapshot,
+    result: SimulationResult,
+    tracked_teams: list[str] = TRACKED_TEAMS,
+) -> str:
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    parts = [
+        RESULTS_START,
+        f"_Last updated: {now} — {result.n_trajectories} simulated trajectories, fit on "
+        f"{snapshot.n_qualifier_matches} qualifiers + {snapshot.n_group_matches} group + "
+        f"{snapshot.n_knockout_matches_used} completed knockout matches._",
+        "",
+        "## Current standings",
+        "",
+        _leaderboard_table(result),
+        "",
+        "## Team spotlight",
+        "",
+    ]
+    for team_name in tracked_teams:
+        parts.append(_team_section(snapshot, result, team_name))
+        parts.append("")
+    parts.append(RESULTS_END)
+    return "\n".join(parts)
+
+
+def update_readme(readme_path: str, results_markdown: str) -> None:
+    with open(readme_path) as f:
+        content = f.read()
+
+    if RESULTS_START in content and RESULTS_END in content:
+        before = content.split(RESULTS_START)[0]
+        after = content.split(RESULTS_END)[1]
+        new_content = before + results_markdown + after
+    else:
+        # First run: insert right after the top-level title line.
+        lines = content.splitlines()
+        insert_at = 1 if lines and lines[0].startswith("# ") else 0
+        new_content = "\n".join(
+            lines[:insert_at] + ["", results_markdown, ""] + lines[insert_at:]
+        )
+
+    with open(readme_path, "w") as f:
+        f.write(new_content)

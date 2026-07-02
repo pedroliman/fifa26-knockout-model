@@ -18,59 +18,23 @@ from .history import DEFAULT_HISTORY_PATH, append_snapshot, team_series
 from .pipeline import Snapshot, build_snapshot
 from .plotting import plot_team_history
 from .simulator import PROGRESS_ROUNDS, SimulationResult, run_simulation
-
-ROUND_LABELS = {
-    "round-of-32": "Round of 32",
-    "round-of-16": "Round of 16",
-    "quarterfinals": "Quarterfinals",
-    "semifinals": "Semifinals",
-    "final": "Final",
-}
+from .team_status import (
+    ROUND_LABELS,
+    current_match_for_team,
+    describe_status,
+    exit_distribution,
+    find_team,
+)
 
 PLOTS_DIR = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "plots"
 )
 
 
-def _find_team(name: str, team_names: dict[str, str]) -> str | None:
-    name_lower = name.strip().lower()
-    for tid, tname in team_names.items():
-        if tname.lower() == name_lower:
-            return tid
-    matches = [tid for tid, tname in team_names.items() if name_lower in tname.lower()]
-    if len(matches) == 1:
-        return matches[0]
-    return None
-
-
-def _current_match_for_team(snapshot: Snapshot, team_id: str):
-    for m in snapshot.bracket.all_matches():
-        for side, other in ((m.home, m.away), (m.away, m.home)):
-            if side.team_id == team_id:
-                return m, side, other
-    return None, None, None
-
-
-def _describe_status(m, side, other) -> str:
-    if m is None:
-        return "Not part of the Round of 32 (eliminated in the group stage, or data unavailable)."
-    label = ROUND_LABELS.get(m.round_slug, m.round_slug)
-    opp = other.team_name or "TBD"
-    if m.status_state == "post":
-        result = "won" if side.winner else "lost"
-        return f"{label}: {result} {side.score}-{other.score} vs {opp}."
-    if m.status_state == "in":
-        return (
-            f"{label}: LIVE now vs {opp} — score {side.score}-{other.score}, "
-            f"{m.status_description}."
-        )
-    return f"{label}: upcoming vs {opp} ({m.date})."
-
-
 def _print_team_report(snapshot: Snapshot, result: SimulationResult, team_id: str, team_name: str):
-    m, side, other = _current_match_for_team(snapshot, team_id)
+    m, side, other = current_match_for_team(snapshot.bracket, team_id)
     print(f"\n=== {team_name} — FIFA World Cup 2026 knockout outlook ===")
-    print(_describe_status(m, side, other))
+    print(describe_status(m, side, other))
     print(f"\nModel: attack={snapshot.ratings.attack.get(team_id, 0.0):+.2f}, "
           f"defense={snapshot.ratings.defense.get(team_id, 0.0):+.2f} "
           f"(fit on {snapshot.n_qualifier_matches} qualifiers + {snapshot.n_group_matches} "
@@ -85,14 +49,7 @@ def _print_team_report(snapshot: Snapshot, result: SimulationResult, team_id: st
         print(f"{ROUND_LABELS[r]:<20}{reach[r]*100:>11.1f}%")
     print(f"{'Win the Cup':<20}{champion*100:>11.1f}%")
 
-    exits = {
-        "Round of 32": 1 - reach["round-of-16"],
-        "Round of 16": reach["round-of-16"] - reach["quarterfinals"],
-        "Quarterfinals": reach["quarterfinals"] - reach["semifinals"],
-        "Semifinals": reach["semifinals"] - reach["final"],
-        "Final (runner-up)": reach["final"] - champion,
-        "Champion": champion,
-    }
+    exits = exit_distribution(result, team_id)
     most_likely = max(exits, key=exits.get)
     print(f"\nMost likely single outcome: {most_likely} ({exits[most_likely]*100:.1f}%)")
     print(f"(based on {result.n_trajectories} simulated trajectories)")
@@ -100,7 +57,7 @@ def _print_team_report(snapshot: Snapshot, result: SimulationResult, team_id: st
 
 def cmd_team(args):
     snapshot = build_snapshot()
-    team_id = _find_team(args.name, snapshot.ratings.team_names)
+    team_id = find_team(args.name, snapshot.ratings.team_names)
     if team_id is None or team_id not in snapshot.bracket.round_of_32_teams():
         available = sorted(
             n for tid, n in snapshot.ratings.team_names.items()
