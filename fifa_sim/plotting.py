@@ -209,7 +209,7 @@ def plot_top10_champion_timeseries(ranked_series: list[tuple[str, list[dict]]], 
 
         ax.set_ylabel("Win-the-Cup probability (%)", fontsize=20, color=INK_SECONDARY, labelpad=12)
         ax.set_title(
-            "FIFA World Cup 2026 — Top 10 title-probability trend",
+            "FIFA World Cup 2026 — Title-probability trend, top contenders",
             fontsize=27, color=INK_PRIMARY, loc="left", fontweight="bold", pad=18,
         )
 

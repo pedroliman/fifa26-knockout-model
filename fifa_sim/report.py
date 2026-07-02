@@ -25,6 +25,7 @@ RESULTS_END = "<!-- RESULTS:END -->"
 TRACKED_TEAMS = ["Brazil", "France", "United States", "Argentina", "Spain"]
 
 TOP_N_SOCIAL = 10
+ALWAYS_INCLUDE_SOCIAL = ("Brazil",)
 TOP10_TIMESERIES_RELPATH = "data/plots/top10_champion_trend.png"
 LOLLIPOP_RELPATH = "data/plots/champion_lollipop.png"
 
@@ -33,15 +34,29 @@ def slug_for_team(team_name: str) -> str:
     return team_name.lower().replace(" ", "_")
 
 
-def top_champion_teams(result: SimulationResult, n: int = TOP_N_SOCIAL) -> list[tuple[str, float]]:
-    """[(team_name, champion_probability), ...] ranked best-first."""
+def top_champion_teams(
+    result: SimulationResult,
+    n: int = TOP_N_SOCIAL,
+    always_include: tuple[str, ...] = ALWAYS_INCLUDE_SOCIAL,
+) -> list[tuple[str, float]]:
+    """[(team_name, champion_probability), ...] ranked best-first, for the
+    top `n` teams. Any name in `always_include` that didn't make the top n
+    on its own merit is appended at the end (it necessarily has a lower
+    probability than everyone already in the list, so the result stays in
+    descending order) -- e.g. Brazil is always shown on the social charts
+    even in a bracket run where they're not a top-10 favorite."""
     ranked = sorted(
         result.all_r32_teams(),
         key=lambda tid: -result.prob_champion(tid),
     )
-    return [
-        (result.team_names.get(tid, tid), result.prob_champion(tid)) for tid in ranked[:n]
-    ]
+    ranked_names = [result.team_names.get(tid, tid) for tid in ranked]
+    top = ranked_names[:n]
+    for name in always_include:
+        if name not in top and name in ranked_names:
+            top.append(name)
+
+    name_to_id = {result.team_names.get(tid, tid): tid for tid in ranked}
+    return [(name, result.prob_champion(name_to_id[name])) for name in top]
 
 
 def _run_provenance() -> str:
@@ -126,7 +141,7 @@ def render_results_markdown(
         f"trajectories, fit on {snapshot.n_qualifier_matches} qualifiers + {snapshot.n_group_matches} "
         f"group + {snapshot.n_knockout_matches_used} completed knockout matches._",
         "",
-        f"![Top 10 title-probability trend]({TOP10_TIMESERIES_RELPATH})",
+        f"![Title-probability trend, top contenders]({TOP10_TIMESERIES_RELPATH})",
         "",
         f"![Title-probability leaderboard]({LOLLIPOP_RELPATH})",
         "",
