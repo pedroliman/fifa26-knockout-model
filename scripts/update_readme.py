@@ -21,8 +21,20 @@ from fifa_sim.bracket import build_bracket  # noqa: E402
 from fifa_sim.espn_client import fetch_knockout_events  # noqa: E402
 from fifa_sim.history import append_snapshot, team_series  # noqa: E402
 from fifa_sim.pipeline import build_snapshot  # noqa: E402
-from fifa_sim.plotting import plot_team_history  # noqa: E402
-from fifa_sim.report import TRACKED_TEAMS, render_results_markdown, slug_for_team, update_readme  # noqa: E402
+from fifa_sim.plotting import (  # noqa: E402
+    plot_champion_lollipop,
+    plot_team_history,
+    plot_top10_champion_timeseries,
+)
+from fifa_sim.report import (  # noqa: E402
+    LOLLIPOP_RELPATH,
+    TOP10_TIMESERIES_RELPATH,
+    TRACKED_TEAMS,
+    render_results_markdown,
+    slug_for_team,
+    top_champion_teams,
+    update_readme,
+)
 from fifa_sim.scheduler import compute_should_run, load_state, save_state  # noqa: E402
 from fifa_sim.simulator import run_simulation  # noqa: E402
 
@@ -63,6 +75,16 @@ def main(argv=None) -> int:
             continue
         out_path = os.path.join(PLOTS_DIR, f"{slug_for_team(team_name)}.png")
         plot_team_history(team_name, series, out_path)
+
+    ranked_probs = top_champion_teams(result)
+    ranked_series = [(name, team_series(name)) for name, _ in ranked_probs]
+    ranked_series = [(name, s) for name, s in ranked_series if s]
+    if ranked_series:
+        plot_top10_champion_timeseries(
+            ranked_series, os.path.join(REPO_ROOT, TOP10_TIMESERIES_RELPATH)
+        )
+
+    plot_champion_lollipop(ranked_probs, os.path.join(REPO_ROOT, LOLLIPOP_RELPATH))
 
     save_state(decision.new_state)
     print(f"Refreshed README with {result.n_trajectories} trajectories.")

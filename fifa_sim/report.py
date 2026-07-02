@@ -6,6 +6,7 @@ two surfaces.
 """
 from __future__ import annotations
 
+import os
 from datetime import datetime, timezone
 
 from .pipeline import Snapshot
@@ -23,9 +24,36 @@ RESULTS_END = "<!-- RESULTS:END -->"
 
 TRACKED_TEAMS = ["Brazil", "France", "United States", "Argentina", "Spain"]
 
+TOP_N_SOCIAL = 10
+TOP10_TIMESERIES_RELPATH = "data/plots/top10_champion_trend.png"
+LOLLIPOP_RELPATH = "data/plots/champion_lollipop.png"
+
 
 def slug_for_team(team_name: str) -> str:
     return team_name.lower().replace(" ", "_")
+
+
+def top_champion_teams(result: SimulationResult, n: int = TOP_N_SOCIAL) -> list[tuple[str, float]]:
+    """[(team_name, champion_probability), ...] ranked best-first."""
+    ranked = sorted(
+        result.all_r32_teams(),
+        key=lambda tid: -result.prob_champion(tid),
+    )
+    return [
+        (result.team_names.get(tid, tid), result.prob_champion(tid)) for tid in ranked[:n]
+    ]
+
+
+def _run_provenance() -> str:
+    server = os.environ.get("GITHUB_SERVER_URL")
+    repo = os.environ.get("GITHUB_REPOSITORY")
+    run_id = os.environ.get("GITHUB_RUN_ID")
+    event = os.environ.get("GITHUB_EVENT_NAME")
+    if server and repo and run_id:
+        url = f"{server}/{repo}/actions/runs/{run_id}"
+        suffix = f" ({event})" if event else ""
+        return f"[GitHub Actions run #{run_id}]({url}){suffix}"
+    return "local/manual run"
 
 
 def _leaderboard_table(result: SimulationResult) -> str:
@@ -91,12 +119,16 @@ def render_results_markdown(
     result: SimulationResult,
     tracked_teams: list[str] = TRACKED_TEAMS,
 ) -> str:
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
     parts = [
         RESULTS_START,
-        f"_Last updated: {now} — {result.n_trajectories} simulated trajectories, fit on "
-        f"{snapshot.n_qualifier_matches} qualifiers + {snapshot.n_group_matches} group + "
-        f"{snapshot.n_knockout_matches_used} completed knockout matches._",
+        f"_Last updated: **{now}** by {_run_provenance()} — {result.n_trajectories} simulated "
+        f"trajectories, fit on {snapshot.n_qualifier_matches} qualifiers + {snapshot.n_group_matches} "
+        f"group + {snapshot.n_knockout_matches_used} completed knockout matches._",
+        "",
+        f"![Top 10 title-probability trend]({TOP10_TIMESERIES_RELPATH})",
+        "",
+        f"![Title-probability leaderboard]({LOLLIPOP_RELPATH})",
         "",
         "## Current standings",
         "",

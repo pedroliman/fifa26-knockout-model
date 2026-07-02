@@ -1,44 +1,48 @@
 # FIFA 2026 Knockout-Phase Monte Carlo Model
 
 <!-- RESULTS:START -->
-_Last updated: 2026-07-02 21:31 UTC — 1000 simulated trajectories, fit on 911 qualifiers + 72 group + 11 completed knockout matches._
+_Last updated: **2026-07-02 21:39:28 UTC** by local/manual run — 1000 simulated trajectories, fit on 911 qualifiers + 72 group + 11 completed knockout matches._
+
+![Top 10 title-probability trend](data/plots/top10_champion_trend.png)
+
+![Title-probability leaderboard](data/plots/champion_lollipop.png)
 
 ## Current standings
 
 | Team | R16 | QF | SF | Final | Champion |
 |---|---:|---:|---:|---:|---:|
-| Spain | 100.0% | 68.8% | 44.5% | 26.8% | **15.8%** |
-| France | 100.0% | 76.0% | 49.0% | 27.2% | **15.0%** |
-| Mexico | 100.0% | 52.5% | 33.2% | 21.1% | **11.8%** |
-| England | 100.0% | 47.5% | 28.0% | 17.7% | **10.3%** |
-| Norway | 100.0% | 59.8% | 24.7% | 14.4% | **7.0%** |
-| Belgium | 100.0% | 53.0% | 23.1% | 11.4% | **5.9%** |
-| Argentina | 68.7% | 39.6% | 23.7% | 12.3% | **5.2%** |
-| Canada | 100.0% | 48.1% | 18.7% | 8.6% | **4.5%** |
-| Morocco | 100.0% | 51.9% | 23.8% | 8.6% | **4.0%** |
-| Switzerland | 68.9% | 35.7% | 19.0% | 8.5% | **3.8%** |
-| United States | 100.0% | 47.0% | 17.8% | 8.2% | **3.6%** |
-| Brazil | 100.0% | 40.2% | 14.1% | 7.1% | **3.3%** |
-| Portugal | 57.0% | 19.3% | 9.5% | 4.5% | **2.1%** |
-| Egypt | 49.1% | 28.1% | 14.7% | 5.3% | **1.8%** |
-| Ghana | 55.1% | 25.9% | 12.6% | 4.1% | **1.5%** |
-| Australia | 50.9% | 27.4% | 12.4% | 4.3% | **1.3%** |
-| Colombia | 44.9% | 18.6% | 7.9% | 2.6% | **1.0%** |
-| Croatia | 43.0% | 11.9% | 5.1% | 2.4% | **0.9%** |
-| Paraguay | 100.0% | 24.0% | 8.5% | 2.3% | **0.6%** |
-| Algeria | 31.1% | 10.7% | 4.1% | 1.3% | **0.3%** |
-| Cape Verde | 31.3% | 14.0% | 5.6% | 1.3% | **0.3%** |
-| Ecuador | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Spain | 100.0% | 67.5% | 44.7% | 27.7% | **17.4%** |
+| France | 100.0% | 77.2% | 49.7% | 27.6% | **16.2%** |
+| Mexico | 100.0% | 51.5% | 31.8% | 20.4% | **10.4%** |
+| England | 100.0% | 48.5% | 30.6% | 19.2% | **10.0%** |
+| Norway | 100.0% | 58.2% | 23.6% | 14.0% | **7.3%** |
+| United States | 100.0% | 49.8% | 20.9% | 9.0% | **5.1%** |
+| Canada | 100.0% | 50.2% | 22.4% | 9.9% | **4.7%** |
+| Belgium | 100.0% | 50.2% | 20.9% | 8.9% | **4.7%** |
+| Argentina | 67.1% | 37.7% | 22.0% | 10.9% | **4.2%** |
+| Switzerland | 70.4% | 39.2% | 21.7% | 8.8% | **3.7%** |
+| Morocco | 100.0% | 49.8% | 21.1% | 9.2% | **3.4%** |
+| Brazil | 100.0% | 41.8% | 14.0% | 7.3% | **2.9%** |
+| Ghana | 54.1% | 26.9% | 12.9% | 5.8% | **2.4%** |
+| Portugal | 52.6% | 18.9% | 7.8% | 4.3% | **2.2%** |
+| Egypt | 50.8% | 27.0% | 13.5% | 4.2% | **1.2%** |
+| Colombia | 45.9% | 20.7% | 9.6% | 3.5% | **1.0%** |
+| Australia | 49.2% | 25.4% | 11.3% | 3.6% | **1.0%** |
+| Paraguay | 100.0% | 22.8% | 6.8% | 2.0% | **0.7%** |
+| Cape Verde | 32.9% | 13.7% | 4.9% | 1.5% | **0.6%** |
+| Croatia | 47.4% | 13.6% | 5.7% | 1.4% | **0.5%** |
+| Algeria | 29.6% | 9.4% | 4.1% | 0.8% | **0.4%** |
+| Bosnia-Herzegovina | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Ivory Coast | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Sweden | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Netherlands | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| South Africa | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
 | Germany | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
 | Senegal | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Netherlands | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Japan | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Sweden | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Congo DR | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
 | Austria | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Ivory Coast | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Bosnia-Herzegovina | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| South Africa | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Japan | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Ecuador | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Congo DR | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
 
 ## Team spotlight
 
@@ -49,12 +53,12 @@ Round of 32: won 2-1 vs Japan.
 | Stage | P(reach) |
 |---|---:|
 | Round of 16 | 100.0% |
-| Quarterfinals | 40.2% |
-| Semifinals | 14.1% |
-| Final | 7.1% |
-| **Win the Cup** | **3.3%** |
+| Quarterfinals | 41.8% |
+| Semifinals | 14.0% |
+| Final | 7.3% |
+| **Win the Cup** | **2.9%** |
 
-Most likely single outcome: **Round of 16** (59.8%).
+Most likely single outcome: **Round of 16** (58.2%).
 
 ![Brazil probability over time](data/plots/brazil.png)
 
@@ -65,12 +69,12 @@ Round of 32: won 3-0 vs Sweden.
 | Stage | P(reach) |
 |---|---:|
 | Round of 16 | 100.0% |
-| Quarterfinals | 76.0% |
-| Semifinals | 49.0% |
-| Final | 27.2% |
-| **Win the Cup** | **15.0%** |
+| Quarterfinals | 77.2% |
+| Semifinals | 49.7% |
+| Final | 27.6% |
+| **Win the Cup** | **16.2%** |
 
-Most likely single outcome: **Quarterfinals** (27.0%).
+Most likely single outcome: **Quarterfinals** (27.5%).
 
 ![France probability over time](data/plots/france.png)
 
@@ -81,12 +85,12 @@ Round of 32: won 2-0 vs Bosnia-Herzegovina.
 | Stage | P(reach) |
 |---|---:|
 | Round of 16 | 100.0% |
-| Quarterfinals | 47.0% |
-| Semifinals | 17.8% |
-| Final | 8.2% |
-| **Win the Cup** | **3.6%** |
+| Quarterfinals | 49.8% |
+| Semifinals | 20.9% |
+| Final | 9.0% |
+| **Win the Cup** | **5.1%** |
 
-Most likely single outcome: **Round of 16** (53.0%).
+Most likely single outcome: **Round of 16** (50.2%).
 
 ![United States probability over time](data/plots/united_states.png)
 
@@ -96,13 +100,13 @@ Round of 32: upcoming vs Cape Verde (2026-07-03T22:00Z).
 
 | Stage | P(reach) |
 |---|---:|
-| Round of 16 | 68.7% |
-| Quarterfinals | 39.6% |
-| Semifinals | 23.7% |
-| Final | 12.3% |
-| **Win the Cup** | **5.2%** |
+| Round of 16 | 67.1% |
+| Quarterfinals | 37.7% |
+| Semifinals | 22.0% |
+| Final | 10.9% |
+| **Win the Cup** | **4.2%** |
 
-Most likely single outcome: **Round of 32** (31.3%).
+Most likely single outcome: **Round of 32** (32.9%).
 
 ![Argentina probability over time](data/plots/argentina.png)
 
@@ -113,12 +117,12 @@ Round of 32: won 3-0 vs Austria.
 | Stage | P(reach) |
 |---|---:|
 | Round of 16 | 100.0% |
-| Quarterfinals | 68.8% |
-| Semifinals | 44.5% |
-| Final | 26.8% |
-| **Win the Cup** | **15.8%** |
+| Quarterfinals | 67.5% |
+| Semifinals | 44.7% |
+| Final | 27.7% |
+| **Win the Cup** | **17.4%** |
 
-Most likely single outcome: **Round of 16** (31.2%).
+Most likely single outcome: **Round of 16** (32.5%).
 
 ![Spain probability over time](data/plots/spain.png)
 
@@ -233,12 +237,35 @@ commit, push — when:
 
 So every scheduled game gets a stats refresh shortly before kickoff and
 again the moment it ends, plus README updates for both. A manual run via
-`workflow_dispatch` (with `force: true`) always refreshes regardless.
+`workflow_dispatch` always forces a refresh regardless of the trigger
+conditions.
+
+Every refresh timestamps the README (`_Last updated: ..._`) and links back
+to the GitHub Actions run that produced it (`fifa_sim/report.py::_run_provenance`,
+via the `GITHUB_RUN_ID`/`GITHUB_SERVER_URL` env vars GitHub sets automatically)
+so you can always tell exactly which run last touched the numbers — it
+falls back to "local/manual run" when the script is run outside CI.
+
+Two flag-illustrated, large-type charts (`fifa_sim/plotting.py`,
+`fifa_sim/flags.py`) sit at the top of the results, sized to be
+screenshotted straight into a social post:
+
+- **Top 10 title-probability trend** — a time series of Win-the-Cup
+  probability for the current top 10 teams, one line per team, with an
+  evenly spaced label rail (flag + name + %) on the right so labels never
+  collide even when several teams are bunched together.
+- **Title-probability leaderboard** — a lollipop chart of the same top 10,
+  each stem tipped with the team's flag.
+
+Flags are fetched once from flagcdn.com (by ISO 3166-1 code, England/
+Scotland/Wales via flagcdn's subdivision codes) and cached under
+`data/cache/flags/`.
 
 The **Team spotlight** section tracks five teams: Brazil, France, the
 United States, Argentina, and Spain (`fifa_sim/report.py::TRACKED_TEAMS`) —
-edit that list to track different teams. The general leaderboard covers all
-32 Round-of-32 teams regardless.
+edit that list to track different teams. The general leaderboard and the
+two social charts cover all 32 Round-of-32 teams / the current top 10
+regardless.
 
 ## Project layout
 
@@ -252,8 +279,9 @@ fifa_sim/
                    including "resume from a live score + clock" mode
   simulator.py     Monte Carlo loop over the whole bracket
   pipeline.py      Glues fetch -> fit -> bracket into one `build_snapshot()`
-  history.py       Append/read timestamped snapshots (for the time-series plot)
-  plotting.py      matplotlib probability-over-time chart
+  history.py       Append/read timestamped snapshots (for the time-series plots)
+  plotting.py      matplotlib charts: per-team history, top-10 trend, lollipop
+  flags.py         Fetches + caches team flag PNGs (flagcdn.com) for the charts
   team_status.py   Shared "find team / current match / exit distribution"
                    helpers used by both the CLI and the README report
   report.py        Renders the Markdown block injected into README.md
@@ -263,8 +291,9 @@ scripts/
   update_readme.py  Entry point the GitHub Action runs
 data/
   history/snapshots.jsonl   append-only run history
-  plots/                    generated charts (including the 5 tracked teams)
+  plots/                    generated charts (5 tracked teams + 2 social charts)
   state/match_status.json   last-seen status per bracket match
+  cache/flags/              cached flag PNGs
 .github/workflows/
   update-knockout-stats.yml   the scheduled/on-demand automation
 ```
