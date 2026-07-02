@@ -1,8 +1,9 @@
 """Fits a Maher/Dixon-Coles-style Poisson attack/defense rating for every
-team from the 2026 World Cup matches played so far (group stage + any
-completed knockout matches). This is the "estimate a model from up-to-date
-data" piece: everything here is derived from ESPN's own match results,
-re-fit every time the CLI runs, so ratings drift as new results come in.
+team from every 2026 World Cup *qualifying* match plus the 2026 World Cup
+matches played so far (group stage + any completed knockout matches). This
+is the "estimate a model from up-to-date data" piece: everything here is
+derived from ESPN's own match results, re-fit every time the CLI runs, so
+ratings drift as new results come in.
 
 Model
 -----
@@ -16,14 +17,26 @@ otherwise -- a small shared home-advantage term since every match in this
 tournament is played on their soil.
 
 Attack/defense parameters are ridge-shrunk toward 0 (i.e. toward
-league-average strength). This matters a lot here because most teams have
-only 3-6 matches of data at this point in the tournament, so unregularized
+league-average strength). This matters a lot early in the tournament, when
+a team might have only 3-6 World Cup matches of data, so unregularized
 per-team MLE would be extremely noisy (a team that wins 5-0 once would
-otherwise look like the best attack in the world).
+otherwise look like the best attack in the world). Qualifiers add a couple
+of years and dozens of extra matches per team, which is exactly the extra
+signal that makes the shrinkage bite less.
+
+Every match is also exponentially time-decayed by recency (`_recency_weight`)
+relative to today: a qualifier from early 2023 barely moves the needle, a
+qualifier from late 2025 counts for a good deal, and this tournament's own
+matches (days to weeks old) count almost fully. This lets qualifiers and
+World Cup matches share one likelihood without a second, harder-to-justify
+"qualifiers are worth X%" knob -- the discount is purely "how long ago",
+which also means the model naturally forgets stale qualifier form as the
+tournament goes on and its own matches pile up.
 """
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import datetime, timezone
 
 import numpy as np
 from scipy.optimize import minimize
@@ -32,6 +45,7 @@ from .espn_client import HOST_NATIONS
 
 RIDGE_LAMBDA = 2.0  # shrinkage strength on attack/defense terms
 HOST_RIDGE_LAMBDA = 4.0  # extra shrinkage on the single host-advantage term
+RECENCY_HALF_LIFE_DAYS = 365.0  # a match this many days old counts for half
 
 
 @dataclass
@@ -42,6 +56,13 @@ class MatchResult:
     away_name: str
     home_goals: int
     away_goals: int
+    date: str  # ISO 8601, e.g. "2025-03-21T19:00Z"
+
+
+def _recency_weight(date_str: str, as_of: datetime) -> float:
+    played = datetime.fromisoformat(date_str)
+    days_ago = max(0.0, (as_of - played).total_seconds() / 86400.0)
+    return 0.5 ** (days_ago / RECENCY_HALF_LIFE_DAYS)
 
 
 @dataclass
@@ -63,7 +84,8 @@ class TeamRatings:
         return float(np.exp(val))
 
 
-def fit_ratings(results: list[MatchResult]) -> TeamRatings:
+def fit_ratings(results: list[MatchResult], as_of: datetime | None = None) -> TeamRatings:
+    as_of = as_of or datetime.now(timezone.utc)
     team_ids = sorted({r.home_id for r in results} | {r.away_id for r in results})
     team_names = {}
     for r in results:
@@ -76,6 +98,7 @@ def fit_ratings(results: list[MatchResult]) -> TeamRatings:
     away_idx = np.array([idx[r.away_id] for r in results])
     home_goals = np.array([r.home_goals for r in results], dtype=float)
     away_goals = np.array([r.away_goals for r in results], dtype=float)
+    weights = np.array([_recency_weight(r.date, as_of) for r in results])
     home_is_host = np.array(
         [1.0 if team_names[r.home_id] in HOST_NATIONS else 0.0 for r in results]
     )
@@ -96,9 +119,10 @@ def fit_ratings(results: list[MatchResult]) -> TeamRatings:
         mu, host_boost, attack, defense = unpack(x)
         lam_home = np.exp(mu + attack[home_idx] - defense[away_idx] + host_boost * home_is_host)
         lam_away = np.exp(mu + attack[away_idx] - defense[home_idx] + host_boost * away_is_host)
-        # Poisson NLL up to a goals! constant (doesn't affect the optimum).
-        nll = np.sum(lam_home - home_goals * np.log(lam_home))
-        nll += np.sum(lam_away - away_goals * np.log(lam_away))
+        # Poisson NLL up to a goals! constant (doesn't affect the optimum),
+        # each observation down-weighted by how long ago it was played.
+        nll = np.sum(weights * (lam_home - home_goals * np.log(lam_home)))
+        nll += np.sum(weights * (lam_away - away_goals * np.log(lam_away)))
         nll += RIDGE_LAMBDA * (np.sum(attack**2) + np.sum(defense**2))
         nll += HOST_RIDGE_LAMBDA * host_boost**2
         return nll

@@ -1,7 +1,7 @@
 """Thin client around ESPN's public (unauthenticated) soccer JSON API.
 
 ESPN does not officially document this API, but it is the same endpoint
-that powers espn.com/soccer and requires no API key. We use it for three
+that powers espn.com/soccer and requires no API key. We use it for four
 things:
 
 1. Live/near-live scoreboard data (score, clock, period) for in-progress
@@ -13,17 +13,25 @@ things:
    occupying later slots are known, labeling the unresolved side
    "Round of 32 11 Winner" etc. We parse that text to build the bracket
    graph -- no hardcoded matchups anywhere in this codebase.
+4. 2026 World Cup *qualification* results, per confederation -- extra
+   history for the rating fit, especially valuable for teams that have
+   played few 2026 World Cup matches so far. ESPN uses the same global
+   team-id namespace across competitions, so a qualifier goal for team
+   "164" (Spain) joins directly onto its World Cup match rows.
 """
 from __future__ import annotations
 
+import http.client
 import json
 import time
 import urllib.error
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from typing import Optional
 
-BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world"
+SOCCER_BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer"
+BASE = f"{SOCCER_BASE}/fifa.world"
 USER_AGENT = "Mozilla/5.0 (compatible; fifa26-knockout-model/0.1; +research use)"
 
 # FIFA World Cup 2026 calendar (fixed, published tournament schedule).
@@ -41,23 +49,49 @@ ROUND_ORDER = [
     "final",
 ]
 
+# One ESPN league slug per confederation's 2026 World Cup qualifying
+# competition. The scoreboard endpoint only returns matches within roughly a
+# one-year window per request, so each confederation is queried in yearly
+# chunks spanning its actual qualifying period (2023 through the March 2026
+# intercontinental play-offs).
+QUALIFIER_SLUGS = [
+    "fifa.worldq.uefa",
+    "fifa.worldq.conmebol",
+    "fifa.worldq.concacaf",
+    "fifa.worldq.caf",
+    "fifa.worldq.afc",
+    "fifa.worldq.ofc",
+]
+QUALIFIER_DATE_CHUNKS = [
+    "20230101-20231231",
+    "20240101-20241231",
+    "20250101-20251231",
+    "20260101-20260401",
+]
 
-def _get(url: str, timeout: float = 15.0, retries: int = 3) -> dict:
+
+def _get(url: str, timeout: float = 20.0, retries: int = 4) -> dict:
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     last_err = None
     for attempt in range(retries):
         try:
             with urllib.request.urlopen(req, timeout=timeout) as resp:
                 return json.loads(resp.read().decode("utf-8"))
-        except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as e:
+        except (
+            urllib.error.URLError,
+            TimeoutError,
+            json.JSONDecodeError,
+            http.client.HTTPException,
+            ConnectionError,
+        ) as e:
             last_err = e
             if attempt < retries - 1:
                 time.sleep(1.5 * (attempt + 1))
     raise RuntimeError(f"Failed to fetch {url}: {last_err}")
 
 
-def get_scoreboard(date_range: str) -> dict:
-    return _get(f"{BASE}/scoreboard?dates={date_range}")
+def get_scoreboard(date_range: str, base: str = BASE, limit: int = 500) -> dict:
+    return _get(f"{base}/scoreboard?dates={date_range}&limit={limit}")
 
 
 def get_all_teams() -> dict:
@@ -141,3 +175,33 @@ def fetch_knockout_events() -> list[RawEvent]:
     raw = get_scoreboard(KNOCKOUT_RANGE)
     events = parse_events(raw)
     return [e for e in events if e.round_slug in ROUND_ORDER]
+
+
+def fetch_qualifier_events() -> list[RawEvent]:
+    """All 2026 World Cup qualifying matches across every confederation.
+
+    Fetched concurrently (24 small requests: 6 confederations x 4 yearly
+    windows) and deduplicated by event id, since a match can appear in more
+    than one chunk near a year boundary.
+    """
+    jobs = [
+        (slug, chunk)
+        for slug in QUALIFIER_SLUGS
+        for chunk in QUALIFIER_DATE_CHUNKS
+    ]
+
+    def _fetch_one(job):
+        slug, chunk = job
+        base = f"{SOCCER_BASE}/{slug}"
+        try:
+            raw = get_scoreboard(chunk, base=base)
+        except RuntimeError:
+            return []
+        return parse_events(raw)
+
+    events_by_id: dict[int, RawEvent] = {}
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        for events in pool.map(_fetch_one, jobs):
+            for e in events:
+                events_by_id[e.event_id] = e
+    return list(events_by_id.values())

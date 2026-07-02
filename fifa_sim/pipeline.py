@@ -7,10 +7,15 @@ day) and every piece re-fetches fresh data.
 """
 from __future__ import annotations
 
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 
 from .bracket import Bracket, build_bracket
-from .espn_client import fetch_group_stage_events, fetch_knockout_events
+from .espn_client import (
+    fetch_group_stage_events,
+    fetch_knockout_events,
+    fetch_qualifier_events,
+)
 from .ratings import MatchResult, TeamRatings, fit_ratings
 
 
@@ -20,6 +25,7 @@ class Snapshot:
     ratings: TeamRatings
     n_group_matches: int
     n_knockout_matches_used: int
+    n_qualifier_matches: int
 
 
 def _completed_result(event) -> MatchResult | None:
@@ -36,19 +42,34 @@ def _completed_result(event) -> MatchResult | None:
         away_name=event.away.name,
         home_goals=event.home.score,
         away_goals=event.away.score,
+        date=event.date,
     )
 
 
 def build_snapshot() -> Snapshot:
-    group_events = fetch_group_stage_events()
-    knockout_events = fetch_knockout_events()
+    with ThreadPoolExecutor(max_workers=3) as pool:
+        group_future = pool.submit(fetch_group_stage_events)
+        knockout_future = pool.submit(fetch_knockout_events)
+        qualifier_future = pool.submit(fetch_qualifier_events)
+        group_events = group_future.result()
+        knockout_events = knockout_future.result()
+        qualifier_events = qualifier_future.result()
 
     results: list[MatchResult] = []
+
+    n_qualifier = 0
+    for e in qualifier_events:
+        r = _completed_result(e)
+        if r is not None:
+            results.append(r)
+            n_qualifier += 1
+
+    n_group = 0
     for e in group_events:
         r = _completed_result(e)
         if r is not None:
             results.append(r)
-    n_group = len(results)
+            n_group += 1
 
     n_knockout_used = 0
     for e in knockout_events:
@@ -65,4 +86,5 @@ def build_snapshot() -> Snapshot:
         ratings=ratings,
         n_group_matches=n_group,
         n_knockout_matches_used=n_knockout_used,
+        n_qualifier_matches=n_qualifier,
     )

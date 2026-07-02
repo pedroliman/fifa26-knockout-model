@@ -14,8 +14,13 @@ python -m fifa_sim bracket
 ## What it does
 
 1. **Pulls live data from ESPN's public soccer API** (no key required):
-   group-stage results, every completed/live/upcoming knockout fixture, and
-   the current score + game clock for matches in progress.
+   2026 World Cup qualifying results for all six confederations (UEFA,
+   CONMEBOL, CONCACAF, CAF, AFC, OFC), group-stage results, every
+   completed/live/upcoming knockout fixture, and the current score + game
+   clock for matches in progress. ESPN uses one global team-id namespace
+   across all of these competitions, so a qualifier result for team "164"
+   (Spain) joins directly onto its World Cup rows -- no name-matching
+   needed.
 2. **Reconstructs the bracket graph from the data itself** — not
    hardcoded. ESPN pre-creates a fixture for every bracket slot before the
    occupants are known (e.g. a Round-of-16 game shows `"Round of 32 11
@@ -26,12 +31,17 @@ python -m fifa_sim bracket
    reflects whatever FIFA/ESPN currently has scheduled, including if a game
    goes to a replay slot or kickoff times shift.
 3. **Fits a Poisson attack/defense rating per team** (`fifa_sim/ratings.py`)
-   from every group-stage and completed-knockout match played so far —
-   a ridge-regularized Maher/Dixon-Coles-style model:
+   from every qualifying, group-stage, and completed-knockout match played
+   so far — a ridge-regularized Maher/Dixon-Coles-style model:
    `lambda_home = exp(mu + attack_home - defense_away + host_boost)`.
-   Ridge shrinkage matters a lot early in the tournament, when most teams
-   have only 3-6 games of data — without it, a single 5-0 win would make a
-   team look unrealistically dominant.
+   Every match is exponentially down-weighted by how long ago it was played
+   (365-day half-life), so a 2023 qualifier barely counts, a late-2025
+   qualifier counts for a good deal, and this tournament's own matches count
+   almost fully — one continuous discount instead of a separate, harder-to-
+   justify "qualifiers are worth X%" knob. Ridge shrinkage on top of that
+   still matters early in the tournament, when a team might have only 3-6
+   *World Cup* games — without it, a single 5-0 win would make a team look
+   unrealistically dominant.
 4. **Simulates each remaining match** with Poisson-distributed goals for
    normal time, then extra time (same per-minute intensity) if still level,
    then a 50/50 penalty shootout if still level after that — matching actual
@@ -54,12 +64,12 @@ python -m fifa_sim bracket
 
 ## Design choices & assumptions (read before trusting the numbers)
 
-- **No pre-tournament priors.** Ratings are fit purely from 2026 World Cup
-  matches (group stage + knockout so far) via ridge-shrunk MLE — deliberately
-  self-contained (one data source, ESPN, for both fixtures and history) rather
-  than depending on an external, hard-to-verify Elo/ranking feed. Early in the
-  bracket this means ratings are noisier than a model blended with
-  preseason strength would be.
+- **No external Elo/ranking prior.** Ratings are fit purely from ESPN match
+  data (qualifiers + 2026 World Cup) via recency-weighted, ridge-shrunk MLE —
+  deliberately self-contained (one data source for both fixtures and
+  history) rather than depending on a separate, hard-to-verify ranking feed.
+  Qualifiers substantially reduce (but don't eliminate) the small-sample
+  noise for teams early in the World Cup bracket.
 - **Host advantage**: a single shared boost term for the USA/Mexico/Canada
   (this tournament's three co-hosts) is fit from the data rather than
   assumed.

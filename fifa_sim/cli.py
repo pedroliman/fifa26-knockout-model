@@ -73,8 +73,9 @@ def _print_team_report(snapshot: Snapshot, result: SimulationResult, team_id: st
     print(_describe_status(m, side, other))
     print(f"\nModel: attack={snapshot.ratings.attack.get(team_id, 0.0):+.2f}, "
           f"defense={snapshot.ratings.defense.get(team_id, 0.0):+.2f} "
-          f"(fit on {snapshot.n_group_matches} group + {snapshot.n_knockout_matches_used} "
-          f"completed knockout matches)")
+          f"(fit on {snapshot.n_qualifier_matches} qualifiers + {snapshot.n_group_matches} "
+          f"group + {snapshot.n_knockout_matches_used} completed knockout matches, "
+          f"recency-weighted)")
 
     reach = {r: result.prob_reach(team_id, r) for r in PROGRESS_ROUNDS}
     champion = result.prob_champion(team_id)
