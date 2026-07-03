@@ -33,8 +33,14 @@ jobs:
             echo "in_window=true" >> "$GITHUB_OUTPUT"
           fi
 
+      # Explicitly targets `main` regardless of which branch's copy of this
+      # workflow file GitHub used to schedule the run (schedule/dispatch
+      # triggers read the workflow from the repo's default branch, which is
+      # not necessarily `main` -- this keeps stats landing on `main` either way).
       - uses: actions/checkout@v4
         if: steps.window.outputs.in_window == 'true' || github.event_name == 'workflow_dispatch'
+        with:
+          ref: main
 
       - uses: actions/setup-python@v5
         if: steps.window.outputs.in_window == 'true' || github.event_name == 'workflow_dispatch'
@@ -64,5 +70,5 @@ jobs:
             echo "No changes to commit."
           else
             git commit -m "Update knockout stats [automated]"
-            git push
+            git push origin HEAD:main
           fi
