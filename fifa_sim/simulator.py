@@ -21,10 +21,9 @@ import numpy as np
 from .bracket import Bracket, KnockoutMatch, Side
 from .espn_client import ROUND_ORDER
 from .match_engine import (
-    MatchOutcome,
+    advance_probability,
     remaining_time_budget,
     simulate_from_state,
-    simulate_not_started,
 )
 from .ratings import TeamRatings
 
@@ -72,6 +71,7 @@ def _resolve_match(
     away_id: str,
     ratings: TeamRatings,
     rng: np.random.Generator,
+    advance_cache: dict[tuple[str, str], float],
 ) -> tuple[str, str]:
     """Returns (winner_id, loser_id) for this match, simulating live/future
     matches and reusing the real outcome for completed ones."""
@@ -86,10 +86,9 @@ def _resolve_match(
             home_id,
         )
 
-    lam_home = ratings.lam(home_id, away_id)
-    lam_away = ratings.lam(away_id, home_id)
-
     if m.status_state == "in":
+        lam_home = ratings.lam(home_id, away_id)
+        lam_away = ratings.lam(away_id, home_id)
         remaining_reg, remaining_et = remaining_time_budget(m.period, m.clock_seconds)
         outcome = simulate_from_state(
             rng,
@@ -100,10 +99,23 @@ def _resolve_match(
             remaining_reg,
             remaining_et,
         )
-    else:  # 'pre'
-        outcome = simulate_not_started(rng, lam_home, lam_away)
+        if outcome.winner == "home":
+            return home_id, away_id
+        return away_id, home_id
 
-    if outcome.winner == "home":
+    # 'pre': the exact advance probability for this pairing only depends on
+    # the two teams, so compute it once (analytically, from the Poisson score
+    # grid) and resolve every trajectory with a single Bernoulli draw. Same
+    # distribution as simulating the goals, but with the per-match sampling
+    # noise removed -- which is what makes 50k+ trajectories cheap.
+    key = (home_id, away_id)
+    p_home = advance_cache.get(key)
+    if p_home is None:
+        p_home = advance_probability(
+            ratings.lam(home_id, away_id), ratings.lam(away_id, home_id)
+        )
+        advance_cache[key] = p_home
+    if rng.random() < p_home:
         return home_id, away_id
     return away_id, home_id
 
@@ -111,10 +123,11 @@ def _resolve_match(
 def run_simulation(
     bracket: Bracket,
     ratings: TeamRatings,
-    n_trajectories: int = 1000,
+    n_trajectories: int = 10000,
     seed: int | None = None,
 ) -> SimulationResult:
     rng = np.random.default_rng(seed)
+    advance_cache: dict[tuple[str, str], float] = {}
 
     r32_teams = bracket.round_of_32_teams()
     reach_counts: dict[str, dict[str, int]] = {t: defaultdict(int) for t in r32_teams}
@@ -134,7 +147,9 @@ def run_simulation(
                     reach_counts[home_id][slug] += 1
                     reach_counts[away_id][slug] += 1
 
-                winner_id, loser_id = _resolve_match(m, home_id, away_id, ratings, rng)
+                winner_id, loser_id = _resolve_match(
+                    m, home_id, away_id, ratings, rng, advance_cache
+                )
                 resolved_winner[(slug, m.slot)] = winner_id
                 resolved_loser[(slug, m.slot)] = loser_id
 

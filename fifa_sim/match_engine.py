@@ -9,6 +9,7 @@ Handles three situations identically well:
 """
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 
 import numpy as np
@@ -63,6 +64,36 @@ def simulate_not_started(
     return simulate_from_state(
         rng, lam_home_90, lam_away_90, 0, 0, REGULATION_MINUTES, EXTRA_TIME_MINUTES
     )
+
+
+# Truncation point for the analytic Poisson score grid. P(>=13 goals for one
+# team) is negligible at soccer scoring rates; the grid is renormalized anyway.
+_MAX_GRID_GOALS = 12
+_FACTORIALS = np.array([float(math.factorial(k)) for k in range(_MAX_GRID_GOALS + 1)])
+
+
+def _win_draw_probs(lam_home: float, lam_away: float) -> tuple[float, float]:
+    """P(home outscores away) and P(level) over a segment where each team's
+    goals are Poisson with the given means, from the exact joint score grid."""
+    ks = np.arange(_MAX_GRID_GOALS + 1)
+    p_home = np.exp(-lam_home) * lam_home**ks / _FACTORIALS
+    p_away = np.exp(-lam_away) * lam_away**ks / _FACTORIALS
+    grid = np.outer(p_home, p_away)
+    grid /= grid.sum()
+    return float(np.tril(grid, -1).sum()), float(np.trace(grid))
+
+
+def advance_probability(lam_home_90: float, lam_away_90: float) -> float:
+    """Exact P(home advances) for a knockout match that hasn't kicked off:
+    regulation from the Poisson score grid, extra time (same per-minute
+    intensity, so 1/3 of the 90-minute means) if level, then a 50/50
+    shootout if still level. Replacing per-trajectory goal sampling with
+    one Bernoulli draw against this number removes a large chunk of Monte
+    Carlo noise and makes very high trajectory counts cheap."""
+    p_win_reg, p_draw_reg = _win_draw_probs(lam_home_90, lam_away_90)
+    et_scale = EXTRA_TIME_MINUTES / REGULATION_MINUTES
+    p_win_et, p_draw_et = _win_draw_probs(lam_home_90 * et_scale, lam_away_90 * et_scale)
+    return p_win_reg + p_draw_reg * (p_win_et + p_draw_et * PENALTY_HOME_WIN_PROB)
 
 
 def remaining_time_budget(period: int, clock_seconds: float) -> tuple[float, float]:

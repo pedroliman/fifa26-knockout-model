@@ -131,7 +131,7 @@ def cmd_bracket(args):
 
 def build_parser() -> argparse.ArgumentParser:
     sim_args = argparse.ArgumentParser(add_help=False)
-    sim_args.add_argument("--n", type=int, default=1000, help="number of Monte Carlo trajectories (default 1000)")
+    sim_args.add_argument("--n", type=int, default=10000, help="number of Monte Carlo trajectories (default 10000)")
     sim_args.add_argument("--seed", type=int, default=None, help="random seed (default: nondeterministic)")
 
     p = argparse.ArgumentParser(prog="fifa_sim", description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
