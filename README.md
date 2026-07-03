@@ -1,7 +1,7 @@
 # FIFA 2026 Knockout-Phase Monte Carlo Model
 
 <!-- RESULTS:START -->
-_Last updated: **2026-07-03 01:21:44 UTC** by local/manual run — 1000 simulated trajectories, fit on 911 qualifiers + 72 group + 12 completed knockout matches._
+_Last updated: **2026-07-02 21:24:32 EDT** by local/manual run — 1000 simulated trajectories, fit on 911 qualifiers + 72 group + 12 completed knockout matches._
 
 ![Title-probability trend, top contenders](data/plots/top10_champion_trend.png)
 
@@ -11,37 +11,37 @@ _Last updated: **2026-07-03 01:21:44 UTC** by local/manual run — 1000 simulate
 
 | Team | R16 | QF | SF | Final | Champion |
 |---|---:|---:|---:|---:|---:|
-| Spain | 100.0% | 67.5% | 42.6% | 25.4% | **14.9%** |
-| France | 100.0% | 74.8% | 47.3% | 24.6% | **14.9%** |
-| Mexico | 100.0% | 52.8% | 32.8% | 21.3% | **12.8%** |
-| England | 100.0% | 47.2% | 29.3% | 18.2% | **10.0%** |
-| Norway | 100.0% | 59.0% | 22.9% | 13.1% | **5.9%** |
-| Belgium | 100.0% | 54.9% | 24.5% | 12.4% | **5.8%** |
-| Argentina | 66.7% | 39.4% | 22.7% | 10.2% | **4.4%** |
-| Switzerland | 70.4% | 38.5% | 21.8% | 9.4% | **4.4%** |
-| United States | 100.0% | 45.1% | 18.2% | 9.0% | **4.3%** |
-| Canada | 100.0% | 51.2% | 22.2% | 9.3% | **4.1%** |
-| Morocco | 100.0% | 48.8% | 21.3% | 9.5% | **4.0%** |
-| Brazil | 100.0% | 41.0% | 15.0% | 7.4% | **3.2%** |
-| Portugal | 100.0% | 32.5% | 14.7% | 6.6% | **2.4%** |
-| Australia | 49.0% | 24.3% | 12.0% | 5.0% | **2.4%** |
-| Ghana | 56.8% | 27.0% | 12.7% | 5.1% | **2.1%** |
-| Colombia | 43.2% | 21.5% | 9.2% | 3.0% | **1.4%** |
-| Egypt | 51.0% | 27.2% | 12.1% | 4.9% | **1.2%** |
-| Paraguay | 100.0% | 25.2% | 9.2% | 3.2% | **1.1%** |
-| Cape Verde | 33.3% | 12.3% | 5.4% | 1.3% | **0.4%** |
-| Algeria | 29.6% | 9.8% | 4.1% | 1.1% | **0.3%** |
-| Ivory Coast | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Austria | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Senegal | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Spain | 100.0% | 65.3% | 41.2% | 25.8% | **15.1%** |
+| France | 100.0% | 75.6% | 47.1% | 24.8% | **14.2%** |
+| Mexico | 100.0% | 52.6% | 34.0% | 22.6% | **12.1%** |
+| England | 100.0% | 47.4% | 28.6% | 18.0% | **10.6%** |
+| Norway | 100.0% | 57.8% | 22.5% | 12.8% | **6.4%** |
+| Argentina | 70.0% | 39.1% | 21.5% | 10.3% | **6.0%** |
+| Belgium | 100.0% | 51.5% | 22.2% | 10.8% | **5.4%** |
+| Morocco | 100.0% | 47.5% | 22.8% | 10.2% | **4.3%** |
+| Switzerland | 69.9% | 37.7% | 20.4% | 9.2% | **4.3%** |
+| Canada | 100.0% | 52.5% | 21.9% | 8.8% | **4.0%** |
+| United States | 100.0% | 48.5% | 20.0% | 9.2% | **3.7%** |
+| Portugal | 100.0% | 34.7% | 16.6% | 7.8% | **3.1%** |
+| Australia | 49.9% | 25.4% | 12.4% | 5.2% | **2.4%** |
+| Brazil | 100.0% | 42.2% | 14.9% | 5.9% | **2.3%** |
+| Egypt | 50.1% | 27.1% | 13.8% | 5.9% | **2.2%** |
+| Ghana | 51.7% | 25.7% | 11.6% | 4.6% | **1.5%** |
+| Colombia | 48.3% | 21.8% | 10.5% | 3.1% | **1.2%** |
+| Paraguay | 100.0% | 24.4% | 8.2% | 2.6% | **0.8%** |
+| Cape Verde | 30.0% | 12.3% | 5.1% | 1.4% | **0.3%** |
+| Algeria | 30.1% | 10.9% | 4.7% | 1.0% | **0.1%** |
 | Croatia | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Japan | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Germany | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Netherlands | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Bosnia-Herzegovina | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
 | Congo DR | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| South Africa | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Japan | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Netherlands | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Austria | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
 | Ecuador | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Ivory Coast | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| South Africa | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Germany | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Bosnia-Herzegovina | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Senegal | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
 | Sweden | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
 
 ## Team spotlight
@@ -53,12 +53,12 @@ Round of 32: won 2-1 vs Japan.
 | Stage | P(reach) |
 |---|---:|
 | Round of 16 | 100.0% |
-| Quarterfinals | 41.0% |
-| Semifinals | 15.0% |
-| Final | 7.4% |
-| **Win the Cup** | **3.2%** |
+| Quarterfinals | 42.2% |
+| Semifinals | 14.9% |
+| Final | 5.9% |
+| **Win the Cup** | **2.3%** |
 
-Most likely single outcome: **Round of 16** (59.0%).
+Most likely single outcome: **Round of 16** (57.8%).
 
 ![Brazil probability over time](data/plots/brazil.png)
 
@@ -69,12 +69,12 @@ Round of 32: won 3-0 vs Sweden.
 | Stage | P(reach) |
 |---|---:|
 | Round of 16 | 100.0% |
-| Quarterfinals | 74.8% |
-| Semifinals | 47.3% |
-| Final | 24.6% |
-| **Win the Cup** | **14.9%** |
+| Quarterfinals | 75.6% |
+| Semifinals | 47.1% |
+| Final | 24.8% |
+| **Win the Cup** | **14.2%** |
 
-Most likely single outcome: **Quarterfinals** (27.5%).
+Most likely single outcome: **Quarterfinals** (28.5%).
 
 ![France probability over time](data/plots/france.png)
 
@@ -85,12 +85,12 @@ Round of 32: won 2-0 vs Bosnia-Herzegovina.
 | Stage | P(reach) |
 |---|---:|
 | Round of 16 | 100.0% |
-| Quarterfinals | 45.1% |
-| Semifinals | 18.2% |
-| Final | 9.0% |
-| **Win the Cup** | **4.3%** |
+| Quarterfinals | 48.5% |
+| Semifinals | 20.0% |
+| Final | 9.2% |
+| **Win the Cup** | **3.7%** |
 
-Most likely single outcome: **Round of 16** (54.9%).
+Most likely single outcome: **Round of 16** (51.5%).
 
 ![United States probability over time](data/plots/united_states.png)
 
@@ -100,13 +100,13 @@ Round of 32: upcoming vs Cape Verde (2026-07-03T22:00Z).
 
 | Stage | P(reach) |
 |---|---:|
-| Round of 16 | 66.7% |
-| Quarterfinals | 39.4% |
-| Semifinals | 22.7% |
-| Final | 10.2% |
-| **Win the Cup** | **4.4%** |
+| Round of 16 | 70.0% |
+| Quarterfinals | 39.1% |
+| Semifinals | 21.5% |
+| Final | 10.3% |
+| **Win the Cup** | **6.0%** |
 
-Most likely single outcome: **Round of 32** (33.3%).
+Most likely single outcome: **Round of 16** (30.9%).
 
 ![Argentina probability over time](data/plots/argentina.png)
 
@@ -117,12 +117,12 @@ Round of 32: won 3-0 vs Austria.
 | Stage | P(reach) |
 |---|---:|
 | Round of 16 | 100.0% |
-| Quarterfinals | 67.5% |
-| Semifinals | 42.6% |
-| Final | 25.4% |
-| **Win the Cup** | **14.9%** |
+| Quarterfinals | 65.3% |
+| Semifinals | 41.2% |
+| Final | 25.8% |
+| **Win the Cup** | **15.1%** |
 
-Most likely single outcome: **Round of 16** (32.5%).
+Most likely single outcome: **Round of 16** (34.7%).
 
 ![Spain probability over time](data/plots/spain.png)
 
@@ -240,9 +240,11 @@ again the moment it ends, plus README updates for both. A manual run via
 `workflow_dispatch` always forces a refresh regardless of the trigger
 conditions.
 
-Every refresh timestamps the README (`_Last updated: ..._`) and links back
-to the GitHub Actions run that produced it (`fifa_sim/report.py::_run_provenance`,
-via the `GITHUB_RUN_ID`/`GITHUB_SERVER_URL` env vars GitHub sets automatically)
+Every refresh timestamps the README (`_Last updated: ..._`, shown in US
+Eastern time -- `America/New_York` via `zoneinfo`, so it reads EST or EDT
+correctly depending on the time of year) and links back to the GitHub
+Actions run that produced it (`fifa_sim/report.py::_run_provenance`, via
+the `GITHUB_RUN_ID`/`GITHUB_SERVER_URL` env vars GitHub sets automatically)
 so you can always tell exactly which run last touched the numbers — it
 falls back to "local/manual run" when the script is run outside CI.
 

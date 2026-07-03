@@ -8,6 +8,9 @@ from __future__ import annotations
 
 import os
 from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
+
+EASTERN = ZoneInfo("America/New_York")
 
 from .pipeline import Snapshot
 from .simulator import PROGRESS_ROUNDS, SimulationResult
@@ -134,7 +137,7 @@ def render_results_markdown(
     result: SimulationResult,
     tracked_teams: list[str] = TRACKED_TEAMS,
 ) -> str:
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    now = datetime.now(timezone.utc).astimezone(EASTERN).strftime("%Y-%m-%d %H:%M:%S %Z")
     parts = [
         RESULTS_START,
         f"_Last updated: **{now}** by {_run_provenance()} — {result.n_trajectories} simulated "
