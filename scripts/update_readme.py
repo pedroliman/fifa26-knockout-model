@@ -3,7 +3,7 @@
 
 Designed to be run frequently (every ~15 min) by a GitHub Action. By
 default it only does the expensive work (fetch qualifiers/group/knockout,
-refit ratings, run 1000 Monte Carlo trajectories, rewrite README) when a
+refit ratings, run 50000 Monte Carlo trajectories, rewrite README) when a
 tracked knockout match is about to kick off or has just finished; every
 other tick it exits immediately. Pass --force to always refresh (used for
 the workflow_dispatch / manual-trigger path).
@@ -45,7 +45,7 @@ PLOTS_DIR = os.path.join(REPO_ROOT, "data", "plots")
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--force", action="store_true", help="refresh even without a trigger condition")
-    parser.add_argument("--n", type=int, default=1000, help="Monte Carlo trajectories (default 1000)")
+    parser.add_argument("--n", type=int, default=50000, help="Monte Carlo trajectories (default 50000)")
     args = parser.parse_args(argv)
 
     bracket = build_bracket(fetch_knockout_events())

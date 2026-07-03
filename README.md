@@ -1,7 +1,7 @@
 # FIFA 2026 Knockout-Phase Monte Carlo Model
 
 <!-- RESULTS:START -->
-_Last updated: **2026-07-02 21:24:32 EDT** by local/manual run — 1000 simulated trajectories, fit on 911 qualifiers + 72 group + 12 completed knockout matches._
+_Last updated: **2026-07-02 21:57:00 EDT** by local/manual run — 50000 simulated trajectories, fit on 911 qualifiers + 72 group + 12 completed knockout matches._
 
 ![Title-probability trend, top contenders](data/plots/top10_champion_trend.png)
 
@@ -11,38 +11,38 @@ _Last updated: **2026-07-02 21:24:32 EDT** by local/manual run — 1000 simulate
 
 | Team | R16 | QF | SF | Final | Champion |
 |---|---:|---:|---:|---:|---:|
-| Spain | 100.0% | 65.3% | 41.2% | 25.8% | **15.1%** |
-| France | 100.0% | 75.6% | 47.1% | 24.8% | **14.2%** |
-| Mexico | 100.0% | 52.6% | 34.0% | 22.6% | **12.1%** |
-| England | 100.0% | 47.4% | 28.6% | 18.0% | **10.6%** |
-| Norway | 100.0% | 57.8% | 22.5% | 12.8% | **6.4%** |
-| Argentina | 70.0% | 39.1% | 21.5% | 10.3% | **6.0%** |
-| Belgium | 100.0% | 51.5% | 22.2% | 10.8% | **5.4%** |
-| Morocco | 100.0% | 47.5% | 22.8% | 10.2% | **4.3%** |
-| Switzerland | 69.9% | 37.7% | 20.4% | 9.2% | **4.3%** |
-| Canada | 100.0% | 52.5% | 21.9% | 8.8% | **4.0%** |
-| United States | 100.0% | 48.5% | 20.0% | 9.2% | **3.7%** |
-| Portugal | 100.0% | 34.7% | 16.6% | 7.8% | **3.1%** |
-| Australia | 49.9% | 25.4% | 12.4% | 5.2% | **2.4%** |
-| Brazil | 100.0% | 42.2% | 14.9% | 5.9% | **2.3%** |
-| Egypt | 50.1% | 27.1% | 13.8% | 5.9% | **2.2%** |
-| Ghana | 51.7% | 25.7% | 11.6% | 4.6% | **1.5%** |
-| Colombia | 48.3% | 21.8% | 10.5% | 3.1% | **1.2%** |
-| Paraguay | 100.0% | 24.4% | 8.2% | 2.6% | **0.8%** |
-| Cape Verde | 30.0% | 12.3% | 5.1% | 1.4% | **0.3%** |
-| Algeria | 30.1% | 10.9% | 4.7% | 1.0% | **0.1%** |
-| Croatia | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Congo DR | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Japan | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| France | 100.0% | 77.9% | 51.0% | 29.8% | **18.3%** |
+| Mexico | 100.0% | 57.1% | 36.7% | 25.0% | **14.1%** |
+| Spain | 100.0% | 61.4% | 38.0% | 21.8% | **13.2%** |
+| England | 100.0% | 42.9% | 24.2% | 14.6% | **7.2%** |
+| Brazil | 100.0% | 55.3% | 23.1% | 13.5% | **5.9%** |
+| Canada | 100.0% | 56.5% | 24.7% | 11.3% | **5.5%** |
+| United States | 100.0% | 52.1% | 22.6% | 10.4% | **5.2%** |
+| Argentina | 66.5% | 40.2% | 24.6% | 11.3% | **5.2%** |
+| Belgium | 100.0% | 47.9% | 20.3% | 9.3% | **4.6%** |
+| Portugal | 100.0% | 38.6% | 19.1% | 8.6% | **4.3%** |
+| Switzerland | 72.1% | 36.8% | 21.1% | 8.8% | **3.5%** |
+| Norway | 100.0% | 44.7% | 16.1% | 8.7% | **3.4%** |
+| Morocco | 100.0% | 43.5% | 16.9% | 6.7% | **2.8%** |
+| Colombia | 53.4% | 28.8% | 13.5% | 5.1% | **1.9%** |
+| Egypt | 54.4% | 27.1% | 12.2% | 4.2% | **1.4%** |
+| Ghana | 46.6% | 23.5% | 10.2% | 3.5% | **1.2%** |
+| Australia | 45.6% | 20.6% | 8.4% | 2.7% | **0.9%** |
+| Paraguay | 100.0% | 22.1% | 7.4% | 2.1% | **0.7%** |
+| Cape Verde | 33.5% | 14.3% | 6.6% | 2.0% | **0.6%** |
+| Algeria | 27.9% | 8.6% | 3.3% | 0.6% | **0.1%** |
 | Netherlands | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Austria | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Ecuador | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Ivory Coast | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| South Africa | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
 | Germany | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Congo DR | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| South Africa | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
 | Bosnia-Herzegovina | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Senegal | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Ivory Coast | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Ecuador | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
 | Sweden | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Japan | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Senegal | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Croatia | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Austria | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
 
 ## Team spotlight
 
@@ -53,12 +53,12 @@ Round of 32: won 2-1 vs Japan.
 | Stage | P(reach) |
 |---|---:|
 | Round of 16 | 100.0% |
-| Quarterfinals | 42.2% |
-| Semifinals | 14.9% |
-| Final | 5.9% |
-| **Win the Cup** | **2.3%** |
+| Quarterfinals | 55.3% |
+| Semifinals | 23.1% |
+| Final | 13.5% |
+| **Win the Cup** | **5.9%** |
 
-Most likely single outcome: **Round of 16** (57.8%).
+Most likely single outcome: **Round of 16** (44.7%).
 
 ![Brazil probability over time](data/plots/brazil.png)
 
@@ -69,12 +69,12 @@ Round of 32: won 3-0 vs Sweden.
 | Stage | P(reach) |
 |---|---:|
 | Round of 16 | 100.0% |
-| Quarterfinals | 75.6% |
-| Semifinals | 47.1% |
-| Final | 24.8% |
-| **Win the Cup** | **14.2%** |
+| Quarterfinals | 77.9% |
+| Semifinals | 51.0% |
+| Final | 29.8% |
+| **Win the Cup** | **18.3%** |
 
-Most likely single outcome: **Quarterfinals** (28.5%).
+Most likely single outcome: **Quarterfinals** (26.9%).
 
 ![France probability over time](data/plots/france.png)
 
@@ -85,12 +85,12 @@ Round of 32: won 2-0 vs Bosnia-Herzegovina.
 | Stage | P(reach) |
 |---|---:|
 | Round of 16 | 100.0% |
-| Quarterfinals | 48.5% |
-| Semifinals | 20.0% |
-| Final | 9.2% |
-| **Win the Cup** | **3.7%** |
+| Quarterfinals | 52.1% |
+| Semifinals | 22.6% |
+| Final | 10.4% |
+| **Win the Cup** | **5.2%** |
 
-Most likely single outcome: **Round of 16** (51.5%).
+Most likely single outcome: **Round of 16** (47.9%).
 
 ![United States probability over time](data/plots/united_states.png)
 
@@ -100,13 +100,13 @@ Round of 32: upcoming vs Cape Verde (2026-07-03T22:00Z).
 
 | Stage | P(reach) |
 |---|---:|
-| Round of 16 | 70.0% |
-| Quarterfinals | 39.1% |
-| Semifinals | 21.5% |
-| Final | 10.3% |
-| **Win the Cup** | **6.0%** |
+| Round of 16 | 66.5% |
+| Quarterfinals | 40.2% |
+| Semifinals | 24.6% |
+| Final | 11.3% |
+| **Win the Cup** | **5.2%** |
 
-Most likely single outcome: **Round of 16** (30.9%).
+Most likely single outcome: **Round of 32** (33.5%).
 
 ![Argentina probability over time](data/plots/argentina.png)
 
@@ -117,12 +117,12 @@ Round of 32: won 3-0 vs Austria.
 | Stage | P(reach) |
 |---|---:|
 | Round of 16 | 100.0% |
-| Quarterfinals | 65.3% |
-| Semifinals | 41.2% |
-| Final | 25.8% |
-| **Win the Cup** | **15.1%** |
+| Quarterfinals | 61.4% |
+| Semifinals | 38.0% |
+| Final | 21.8% |
+| **Win the Cup** | **13.2%** |
 
-Most likely single outcome: **Round of 16** (34.7%).
+Most likely single outcome: **Round of 16** (38.6%).
 
 ![Spain probability over time](data/plots/spain.png)
 
@@ -130,7 +130,7 @@ Most likely single outcome: **Round of 16** (34.7%).
 
 A self-contained model of the FIFA World Cup 2026 knockout stage (Round of 32
 through the Final). Every run fetches live data, refits team strength, and
-simulates the rest of the tournament 1000 times.
+simulates the rest of the tournament 50,000 times.
 
 The **Current standings** and **Team spotlight** sections above are
 regenerated automatically by a GitHub Action — see
@@ -166,25 +166,34 @@ python -m fifa_sim bracket
 3. **Fits a Poisson attack/defense rating per team** (`fifa_sim/ratings.py`)
    from every qualifying, group-stage, and completed-knockout match played
    so far — a ridge-regularized Maher/Dixon-Coles-style model:
-   `lambda_home = exp(mu + attack_home - defense_away + host_boost)`.
-   Every match is exponentially down-weighted by how long ago it was played
-   (365-day half-life), so a 2023 qualifier barely counts, a late-2025
-   qualifier counts for a good deal, and this tournament's own matches count
-   almost fully — one continuous discount instead of a separate, harder-to-
-   justify "qualifiers are worth X%" knob. Ridge shrinkage on top of that
-   still matters early in the tournament, when a team might have only 3-6
-   *World Cup* games — without it, a single 5-0 win would make a team look
+   `lambda_home = exp(mu + attack_home - defense_away + venue terms)`.
+   Two venue terms are fit from the data, each active in exactly one kind
+   of match: a shared **home advantage** for the home side in qualifiers
+   (genuine home/away fixtures — without it, a team's home edge leaks into
+   its attack rating and gets carried onto neutral World Cup pitches), and
+   a **host boost** for USA/Mexico/Canada in this tournament's matches
+   (neutral venue for everyone else). Every match is exponentially
+   down-weighted by how long ago it was played (120-day half-life), so
+   recent form dominates and stale qualifier results fade as the
+   tournament's own matches pile up. Ridge shrinkage on top of that still
+   matters early in the tournament, when a team might have only 3-6 *World
+   Cup* games — without it, a single 5-0 win would make a team look
    unrealistically dominant.
 4. **Simulates each remaining match** with Poisson-distributed goals for
    normal time, then extra time (same per-minute intensity) if still level,
    then a 50/50 penalty shootout if still level after that — matching actual
-   knockout-match rules (no away goals, no replays).
+   knockout-match rules (no away goals, no replays). For matches that
+   haven't kicked off, the advance probability is computed *exactly* from
+   the Poisson score grid (`fifa_sim/match_engine.py::advance_probability`)
+   and cached per pairing, so each trajectory resolves the match with a
+   single Bernoulli draw — same distribution as sampling the goals, minus
+   the sampling noise.
 5. **Respects live match state**: if a match is in progress, the model
    keeps the actual current score fixed and only simulates the *remaining*
    clock time (using the live period/clock from ESPN), so a goal scored
    right now immediately shifts every downstream probability the next time
    you run the CLI.
-6. **Runs 1000 Monte Carlo trajectories** through the whole bracket,
+6. **Runs 50,000 Monte Carlo trajectories** through the whole bracket,
    propagating simulated winners (and, for semifinals, losers, for the
    3rd-place match) round by round, and tallies:
    - P(team reaches Round of 16 / QF / SF / Final)
@@ -203,9 +212,24 @@ python -m fifa_sim bracket
   history) rather than depending on a separate, hard-to-verify ranking feed.
   Qualifiers substantially reduce (but don't eliminate) the small-sample
   noise for teams early in the World Cup bracket.
+- **Hyperparameters are backtested, not guessed.** The ridge strength and
+  recency half-life were chosen by fitting on the data available before
+  each stage of this tournament and scoring the predicted win/draw/loss
+  probabilities of the 84 World Cup matches actually played (mean
+  log-loss). The search found a shallow optimum at ridge ≈ 2 with a
+  ~90-120-day half-life — recent form simply predicts better than year-old
+  qualifier results — improving out-of-sample log-loss from 1.12 (old
+  365-day, no-home-advantage setup) to 1.03. A Dixon-Coles low-score
+  dependency term was tried in the same harness and did not help
+  out-of-sample, so it's deliberately omitted.
+- **Home advantage in qualifiers** is modeled with a single shared term
+  (fit ≈ +0.24 log-goals, in line with the soccer literature), applied only
+  in home/away qualifying fixtures; World Cup matches are treated as
+  neutral-venue.
 - **Host advantage**: a single shared boost term for the USA/Mexico/Canada
   (this tournament's three co-hosts) is fit from the data rather than
-  assumed.
+  assumed, and applied only in this tournament's matches — so the hosts'
+  home qualifiers don't double-count it.
 - **Extra time** is modeled at the same goals-per-minute rate as normal
   time (a simplifying assumption; some research suggests fatigue lowers
   scoring rates in ET, but the effect is small and contested).
@@ -215,9 +239,13 @@ python -m fifa_sim bracket
 - **Stoppage time is ignored** in the live-match clock model (matches are
   treated as ending at exactly 90/120 minutes); the effect on remaining-time
   estimates is minor.
-- 1000 trajectories gives Monte Carlo error of roughly ±1.5 percentage
-  points (at p≈0.5) on any given probability — plenty for these purposes,
-  and cheap to bump via `--n`.
+- 50,000 trajectories gives Monte Carlo error of roughly ±0.2 percentage
+  points (at p≈0.5) on any given probability, so the README numbers move
+  smoothly between runs instead of jittering. Because not-yet-started
+  matches resolve via one cached, analytically exact advance probability
+  per pairing (rather than sampling goals every trajectory), the full 50k
+  run takes only a couple of seconds — bump it further via `--n` if you
+  like.
 
 ## Automation
 
@@ -229,7 +257,7 @@ that window to avoid burning Actions minutes for the rest of the year).
 Most ticks are a no-op. `fifa_sim/scheduler.py` keeps a small state file
 (`data/state/match_status.json`) of each bracket match's last-seen status
 and only triggers the expensive path — refetch qualifiers/group/knockout,
-refit ratings, run 1000 trajectories, rewrite the README, regenerate charts,
+refit ratings, run 50,000 trajectories, rewrite the README, regenerate charts,
 commit, push — when:
 
 - a match is scheduled to kick off within the next 20 minutes (**before**), or

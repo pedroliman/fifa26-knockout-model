@@ -28,7 +28,7 @@ class Snapshot:
     n_qualifier_matches: int
 
 
-def _completed_result(event) -> MatchResult | None:
+def _completed_result(event, neutral: bool) -> MatchResult | None:
     if event.status_state != "post":
         return None
     if event.home.is_placeholder or event.away.is_placeholder:
@@ -43,6 +43,7 @@ def _completed_result(event) -> MatchResult | None:
         home_goals=event.home.score,
         away_goals=event.away.score,
         date=event.date,
+        neutral=neutral,
     )
 
 
@@ -57,23 +58,25 @@ def build_snapshot() -> Snapshot:
 
     results: list[MatchResult] = []
 
+    # Qualifiers are genuine home/away fixtures; every 2026 World Cup match
+    # is a neutral venue (except for the hosts, handled by host_boost).
     n_qualifier = 0
     for e in qualifier_events:
-        r = _completed_result(e)
+        r = _completed_result(e, neutral=False)
         if r is not None:
             results.append(r)
             n_qualifier += 1
 
     n_group = 0
     for e in group_events:
-        r = _completed_result(e)
+        r = _completed_result(e, neutral=True)
         if r is not None:
             results.append(r)
             n_group += 1
 
     n_knockout_used = 0
     for e in knockout_events:
-        r = _completed_result(e)
+        r = _completed_result(e, neutral=True)
         if r is not None:
             results.append(r)
             n_knockout_used += 1

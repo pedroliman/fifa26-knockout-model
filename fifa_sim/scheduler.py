@@ -2,7 +2,7 @@
 
 The GitHub Action runs on a tight cron (every 15 minutes) so it can catch
 kickoffs and final whistles promptly, but a full refresh (qualifiers +
-group + knockout fetch, 1000-trajectory simulation, README/plot rewrite,
+group + knockout fetch, 50000-trajectory simulation, README/plot rewrite,
 commit) is comparatively expensive and would be noisy if it fired every
 tick. Instead we keep a small state file recording each bracket match's
 last-seen status, and only do the full refresh when something that
