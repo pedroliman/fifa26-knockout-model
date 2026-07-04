@@ -9,10 +9,18 @@ its two participants). So we never hardcode which countries meet whom --
 we sort each round's fixtures by id to recover slot numbers, and parse
 placeholder participant text ("Round of 32 11 Winner", "Semifinal 2
 Loser", ...) to wire each match to the two matches that feed it.
+
+That label isn't perfectly reliable, though: once in a while ESPN leaves a
+still-open slot's label pointing at an earlier slot whose winner it already
+wired directly into a *different*, already-decided fixture -- which without
+correction double-counts that team as having reached the later round twice.
+`_repair_stale_feeder_labels` detects the resulting claim collision and
+reassigns the stale label to the one earlier slot nothing else claims.
 """
 from __future__ import annotations
 
 import re
+from collections import defaultdict
 from dataclasses import dataclass
 from typing import Optional
 
@@ -27,6 +35,15 @@ _ROUND_NAME_TO_SLUG = {
     "Round of 16": "round-of-16",
     "Quarterfinal": "quarterfinals",
     "Semifinal": "semifinals",
+}
+
+# Rounds where every slot's winner feeds exactly one match in the next round
+# (unlike semifinals, whose winner *and* loser fork to two different
+# matches -- final and 3rd-place-match -- so that pair is excluded here).
+_FOLLOWED_BY = {
+    "round-of-32": "round-of-16",
+    "round-of-16": "quarterfinals",
+    "quarterfinals": "semifinals",
 }
 
 
@@ -113,6 +130,52 @@ class Bracket:
         return teams
 
 
+def _repair_stale_feeder_labels(matches_by_round: dict[str, list[KnockoutMatch]]) -> None:
+    """ESPN labels each still-open slot with the earlier round's slot number
+    it depends on (e.g. "Round of 32 15 Winner"), which is normally exactly
+    the slot our own id-sort recovers. But that label is occasionally stale:
+    we've observed it point at a slot whose winner ESPN had *already* wired
+    directly into a different, already-decided fixture in the same round.
+    Since every earlier slot feeds exactly one later match, a slot claimed
+    twice is a contradiction -- the still-open claim must actually belong to
+    whichever earlier slot nobody has claimed, so we reassign it there.
+    """
+    for prev_slug, slug in _FOLLOWED_BY.items():
+        prev_matches = matches_by_round.get(prev_slug, [])
+        prev_slots = {m.slot for m in prev_matches}
+        winner_slot: dict[str, int] = {}
+        for m in prev_matches:
+            if m.status_state == "post":
+                if m.home.winner and m.home.team_id:
+                    winner_slot[m.home.team_id] = m.slot
+                elif m.away.winner and m.away.team_id:
+                    winner_slot[m.away.team_id] = m.slot
+
+        claims: dict[int, list[Side]] = defaultdict(list)
+        for m in matches_by_round.get(slug, []):
+            for side in (m.home, m.away):
+                if side.team_id and side.team_id in winner_slot:
+                    claims[winner_slot[side.team_id]].append(side)
+                elif (
+                    side.feeder is not None
+                    and side.feeder.round_slug == prev_slug
+                    and side.feeder.outcome == "Winner"
+                ):
+                    claims[side.feeder.slot].append(side)
+
+        orphan_slots = sorted(prev_slots - claims.keys())
+        for slot, sides in claims.items():
+            if len(sides) <= 1:
+                continue
+            stale = [s for s in sides if s.feeder is not None]
+            if len(stale) == 1 and orphan_slots:
+                stale[0].feeder = Feeder(
+                    round_slug=prev_slug,
+                    slot=orphan_slots.pop(0),
+                    outcome=stale[0].feeder.outcome,
+                )
+
+
 def build_bracket(events: list[RawEvent]) -> Bracket:
     by_round: dict[str, list[RawEvent]] = {slug: [] for slug in ROUND_ORDER}
     for e in events:
@@ -138,4 +201,5 @@ def build_bracket(events: list[RawEvent]) -> Bracket:
                 )
             )
         matches_by_round[slug] = matches
+    _repair_stale_feeder_labels(matches_by_round)
     return Bracket(matches_by_round)
