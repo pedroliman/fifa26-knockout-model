@@ -1,7 +1,7 @@
 # FIFA 2026 Knockout-Phase Monte Carlo Model
 
 <!-- RESULTS:START -->
-_Last updated: **2026-07-09 20:17:55 EDT** by [GitHub Actions run #29059611524](https://github.com/pedroliman/fifa26-knockout-model/actions/runs/29059611524) (schedule) — 50000 simulated trajectories, fit on 911 qualifiers + 72 group + 25 completed knockout matches._
+_Last updated: **2026-07-10 18:39:39 EDT** by [GitHub Actions run #29128317360](https://github.com/pedroliman/fifa26-knockout-model/actions/runs/29128317360) (schedule) — 50000 simulated trajectories, fit on 911 qualifiers + 72 group + 26 completed knockout matches._
 
 ![Title-probability trend, top contenders](data/plots/top10_champion_trend.png)
 
@@ -11,38 +11,38 @@ _Last updated: **2026-07-09 20:17:55 EDT** by [GitHub Actions run #29059611524](
 
 | Team | R16 | QF | SF | Final | Champion |
 |---|---:|---:|---:|---:|---:|
-| France | 100.0% | 100.0% | 100.0% | 57.1% | **37.9%** |
-| Spain | 100.0% | 100.0% | 58.7% | 27.4% | **17.1%** |
-| England | 100.0% | 100.0% | 56.7% | 32.3% | **13.2%** |
-| Belgium | 100.0% | 100.0% | 41.3% | 15.4% | **8.3%** |
-| Argentina | 100.0% | 100.0% | 50.9% | 23.4% | **8.1%** |
-| Switzerland | 100.0% | 100.0% | 49.1% | 22.3% | **8.0%** |
-| Norway | 100.0% | 100.0% | 43.3% | 21.9% | **7.4%** |
-| South Africa | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Sweden | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| United States | 100.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Austria | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Ghana | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Algeria | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Netherlands | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Brazil | 100.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Mexico | 100.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| France | 100.0% | 100.0% | 100.0% | 51.8% | **34.3%** |
+| Spain | 100.0% | 100.0% | 100.0% | 48.2% | **30.6%** |
+| England | 100.0% | 100.0% | 57.3% | 32.5% | **12.9%** |
+| Argentina | 100.0% | 100.0% | 51.0% | 23.5% | **7.8%** |
+| Switzerland | 100.0% | 100.0% | 49.0% | 22.2% | **7.7%** |
+| Norway | 100.0% | 100.0% | 42.7% | 21.8% | **6.7%** |
 | Canada | 100.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Senegal | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Germany | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Bosnia-Herzegovina | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Australia | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Morocco | 100.0% | 100.0% | 0.0% | 0.0% | **0.0%** |
-| Ivory Coast | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Ecuador | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Egypt | 100.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Portugal | 100.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Ghana | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
 | Colombia | 100.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Congo DR | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
 | Japan | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Paraguay | 100.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
-| Cape Verde | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
 | Croatia | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Morocco | 100.0% | 100.0% | 0.0% | 0.0% | **0.0%** |
+| Ecuador | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Sweden | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Belgium | 100.0% | 100.0% | 0.0% | 0.0% | **0.0%** |
+| Netherlands | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Paraguay | 100.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Senegal | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Australia | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Egypt | 100.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Brazil | 100.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| South Africa | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Bosnia-Herzegovina | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Mexico | 100.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Austria | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Ivory Coast | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| United States | 100.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Portugal | 100.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Algeria | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Germany | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Congo DR | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
+| Cape Verde | 0.0% | 0.0% | 0.0% | 0.0% | **0.0%** |
 
 ## Team spotlight
 
@@ -71,10 +71,10 @@ Round of 32: won 3-0 vs Sweden.
 | Round of 16 | 100.0% |
 | Quarterfinals | 100.0% |
 | Semifinals | 100.0% |
-| Final | 57.1% |
-| **Win the Cup** | **37.9%** |
+| Final | 51.8% |
+| **Win the Cup** | **34.3%** |
 
-Most likely single outcome: **Semifinals** (42.9%).
+Most likely single outcome: **Semifinals** (48.2%).
 
 ![France probability over time](data/plots/france.png)
 
@@ -102,11 +102,11 @@ Round of 32: won 3-2 vs Cape Verde.
 |---|---:|
 | Round of 16 | 100.0% |
 | Quarterfinals | 100.0% |
-| Semifinals | 50.9% |
-| Final | 23.4% |
-| **Win the Cup** | **8.1%** |
+| Semifinals | 51.0% |
+| Final | 23.5% |
+| **Win the Cup** | **7.8%** |
 
-Most likely single outcome: **Quarterfinals** (49.1%).
+Most likely single outcome: **Quarterfinals** (49.0%).
 
 ![Argentina probability over time](data/plots/argentina.png)
 
@@ -118,11 +118,11 @@ Round of 32: won 3-0 vs Austria.
 |---|---:|
 | Round of 16 | 100.0% |
 | Quarterfinals | 100.0% |
-| Semifinals | 58.7% |
-| Final | 27.4% |
-| **Win the Cup** | **17.1%** |
+| Semifinals | 100.0% |
+| Final | 48.2% |
+| **Win the Cup** | **30.6%** |
 
-Most likely single outcome: **Quarterfinals** (41.3%).
+Most likely single outcome: **Semifinals** (51.8%).
 
 ![Spain probability over time](data/plots/spain.png)
 
